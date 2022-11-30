@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "Hash": "KgOA4smgcU9tA0xhFp/pSmETk93rgLogKtcBHlVImjs=",
+  "Source": "WebAPICasino",
+  "BasePath": "_content/WebAPICasino",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebAPICasino/wwwroot",
+      "Source": "WebAPICasino",
+      "ContentRoot": "/home/kenneth/Git-Repos/BackEnd_PIA/WebAPICasino/wwwroot/",
+      "BasePath": "_content/WebAPICasino",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/kenneth/Git-Repos/BackEnd_PIA/WebAPICasino/wwwroot/Archivo 1.txt",
+      "SourceId": "WebAPICasino",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/kenneth/Git-Repos/BackEnd_PIA/WebAPICasino/wwwroot/",
+      "BasePath": "_content/WebAPICasino",
+      "RelativePath": "Archivo 1.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/Archivo 1.txt"
+    }
+  ]
+}
