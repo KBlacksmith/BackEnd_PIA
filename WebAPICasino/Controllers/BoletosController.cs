@@ -54,6 +54,7 @@ namespace WebAPICasino.Controllers{
             var boleto = mapper.Map<BoletoDeLoteria>(boletoCreacionDTO);
             boleto.RifaId = rifaId;
             boleto.ParticipanteId = participanteId;
+            boleto.Ganador = false;
             context.Add(boleto);
 
             rifa.BoletosDisponibles.Remove(boletoCreacionDTO.Numero);

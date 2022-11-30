@@ -13,7 +13,7 @@ using WebAPICasino;
 namespace WebAPICasino.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221130013442_Inicial")]
+    [Migration("20221130024858_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -229,6 +229,9 @@ namespace WebAPICasino.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ganador")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Numero")
                         .HasColumnType("integer");

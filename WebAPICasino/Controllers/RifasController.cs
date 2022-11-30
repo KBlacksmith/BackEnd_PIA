@@ -3,7 +3,6 @@ using WebAPICasino.Entidades;
 using Microsoft.EntityFrameworkCore;
 using WebAPICasino.DTOs;
 using AutoMapper;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -29,7 +28,6 @@ namespace WebAPICasino.Controllers{
             var rifas = await context.Rifas.ToListAsync();
             //mapper.Map<List<RifaDTOLista>>(rifas);
             return mapper.Map<List<RifaDTOLista>>(rifas);
-            //return await context.Rifas.ToListAsync();
         }
         [HttpGet("{id:int}")]
         [AllowAnonymous]
@@ -52,12 +50,12 @@ namespace WebAPICasino.Controllers{
 
             return mapper.Map<RifaDTO>(rifa);
         }
-        [HttpGet("{id:int}/ganador")]
-        public async Task<ActionResult<Object>> Ganador(int id){
-            var boletosVendidos = new List<int>();
-            var rifa = await context.Rifas.FirstOrDefaultAsync(r => r.Id == id);
+        [HttpGet("{rifaId:int}/ganador")]
+        public async Task<ActionResult<Object>> Ganador(int rifaId){
+            /*var boletosVendidos = new List<int>();
+            var rifa = await context.Rifas.FirstOrDefaultAsync(r => r.Id == rifaId);
             if(rifa == null){
-                return NotFound("La rifa con Id "+id.ToString()+" no existe");
+                return NotFound("La rifa con Id "+rifaId.ToString()+" no existe");
             }
             int i = 1; 
             while(i <= 54){
@@ -68,33 +66,36 @@ namespace WebAPICasino.Controllers{
                 i++;
             }
             var rnd = new Random();
-            Console.WriteLine("Vendidos");
-            Console.WriteLine(boletosVendidos.Count());
             if(boletosVendidos.Count() == 0){
                 return BadRequest("No se han vendido boletos");
+            }*/
+            /*int g = rnd.Next(0, boletosVendidos.Count()-1);
+            var ganador = boletosVendidos.ElementAt(g);*/
+            var rnd = new Random();
+            var boletos = await context.Boletos.Where(b => b.Ganador == false && b.RifaId == rifaId).ToListAsync();
+            if(boletos.Count() == 0){
+                return BadRequest("No se han vendido boletos");
             }
-            int g = rnd.Next(0, boletosVendidos.Count()-1);
-            Console.WriteLine("test");
-            Console.WriteLine(g);
-            var ganador = boletosVendidos.ElementAt(g);
+            var ganador = rnd.Next(0, boletos.Count()-1);
             //int ganador = boletosVendidos[];
-            var p_ganador = await context.Boletos.FirstOrDefaultAsync(b => b.RifaId == id && b.Numero == ganador);
-            var premios = await context.Premios.Where(p => p.RifaId == id && p.Ganador == 0).ToListAsync();
-            Console.WriteLine(premios);
-            Console.WriteLine(premios.Count());
-            
-            if(p_ganador == null || premios.Count() == 0){
+            //var boleto_ganador = await context.Boletos.FirstOrDefaultAsync(b => b.RifaId == id && b.Numero == ganador && !b.Ganador);
+            var boleto_ganador = boletos.ElementAt(ganador);
+            /*var premios = await context.Premios.Where(p => p.RifaId == rifaId && p.Ganador == 0).ToListAsync();
+            if(boleto_ganador == null || premios.Count() == 0){
                 return NotFound("No hay ganador esta ronda");
-            }
-            var premio = await context.Premios.FirstOrDefaultAsync(p => p.RifaId == id && p.Ganador == 0);
+            }*/
+            var premio = await context.Premios.FirstOrDefaultAsync(p => p.RifaId == rifaId && p.Ganador == 0);
             if(premio == null){
                 return NotFound("No hay premio disponible");
             }
-            premio.Ganador = ganador;
+            premio.Ganador = boleto_ganador.Numero;
+            boleto_ganador.Ganador = true;
+            boleto_ganador.Participante = await context.Participantes.FirstOrDefaultAsync(p => p.Id == boleto_ganador.ParticipanteId);
+            context.Update(boleto_ganador);
             context.Update(premio);
             await context.SaveChangesAsync();
             return new{
-                p_ganador, 
+                boleto_ganador, 
                 premio
             };
         }

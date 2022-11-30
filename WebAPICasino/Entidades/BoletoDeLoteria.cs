@@ -10,5 +10,6 @@ namespace WebAPICasino.Entidades{
         [Required]
         public int ParticipanteId {get; set; }
         public Participante Participante {get; set; }
+        public bool Ganador {get; set; }
     }
 }

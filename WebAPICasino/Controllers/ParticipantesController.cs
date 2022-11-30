@@ -42,19 +42,17 @@ namespace WebAPICasino.Controllers{
             if(correoEnUso){
                 return BadRequest("El email '"+participanteCreacionDTO.Email+"' ya se encuentra en uso por otro participante");
             }
-            /*var existeRifa = await context.Rifas.AnyAsync(x=> x.Id == participante.RifaId);
-            if (!existeRifa){
-                return BadRequest("No existe la rifa con ID: "+participante.RifaId.ToString());
-            }*/
+
             var participante = mapper.Map<Participante>(participanteCreacionDTO);
             participante.Boletos = new List<BoletoDeLoteria>();
-            //participante.Boletos = new List<BoletoDeLoteria>();
-            //participante.Rifas = new List<Rifa>();
+            
             context.Add(participante);
             await context.SaveChangesAsync();
             return Ok();
         }
         [HttpPut("{id:int}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
         public async Task<ActionResult> Put(Participante participante, int id){
             if (participante.Id != id){
                 return BadRequest("El ID del participante no corresponde con el ID de la URL");

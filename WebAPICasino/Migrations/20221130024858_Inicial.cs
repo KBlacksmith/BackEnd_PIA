@@ -194,7 +194,8 @@ namespace WebAPICasino.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Numero = table.Column<int>(type: "integer", nullable: false),
                     RifaId = table.Column<int>(type: "integer", nullable: false),
-                    ParticipanteId = table.Column<int>(type: "integer", nullable: false)
+                    ParticipanteId = table.Column<int>(type: "integer", nullable: false),
+                    Ganador = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
